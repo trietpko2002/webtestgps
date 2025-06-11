@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const gaugeValueEl = document.querySelector('.gauge-value');
     const mapContainer = document.getElementById('map');
     const toggleMapBtn = document.getElementById('toggle-map-btn');
+    const destinationInfoContainer = document.querySelector('.stat-destination');
+    const destinationDistValueEl = document.getElementById('destination-dist-value');
 
     // --- BIẾN TRẠNG THÁI VÀ CÀI ĐẶT ---
     const gaugeRadius = 54, gaugeCircumference = 2 * Math.PI * gaugeRadius, MAX_SPEED_ON_GAUGE = 150;
@@ -23,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let totalDistance = 0, maxSpeed = 0, startTime = null, lastPosition = null;
     const TAIL_LENGTH = 70;
     let tailSegments = [], tailColors = [], currentTailIndex = 0;
+    let destinationMarker = null, destinationLatLng = null;
 
     // --- KHỞI TẠO BẢN ĐỒ ---
     const map = L.map('map').setView([16.047079, 108.206230], 6);
@@ -51,6 +54,30 @@ document.addEventListener('DOMContentLoaded', function () {
         gaugeProgressEl.style.strokeDashoffset = offset;
     }
 
+    function clearDestination() {
+        if (destinationMarker) {
+            map.removeLayer(destinationMarker);
+            destinationMarker = null;
+            destinationLatLng = null;
+            destinationInfoContainer.classList.add('hidden');
+        }
+    }
+    
+    function setDestination(latlng) {
+        clearDestination();
+        destinationLatLng = latlng;
+        const destinationIcon = L.divIcon({ className: 'destination-marker', iconSize: [36, 36], iconAnchor: [4, 35] });
+        destinationMarker = L.marker(latlng, { icon: destinationIcon }).addTo(map);
+        destinationMarker.bindPopup('<b>Đích đến</b><br><button id="clear-dest-btn">Xóa đích</button>');
+        destinationMarker.on('popupopen', () => { document.getElementById('clear-dest-btn').addEventListener('click', clearDestination); });
+        destinationInfoContainer.classList.remove('hidden');
+        destinationDistValueEl.textContent = '-- km';
+        if (lastPosition) {
+            const distanceToDest = map.distance([lastPosition.coords.latitude, lastPosition.coords.longitude], destinationLatLng);
+            destinationDistValueEl.textContent = `${(distanceToDest / 1000).toFixed(2)} km`;
+        }
+    }
+
     function resetStats() {
         totalDistance = 0; maxSpeed = 0; startTime = null; lastPosition = null;
         trackedPoints = []; distanceValueEl.textContent = '0.00 km';
@@ -58,12 +85,14 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSpeedGauge(0);
         tailSegments.forEach(segment => map.removeLayer(segment));
         tailSegments = [], currentTailIndex = 0;
+        clearDestination();
     }
 
     function startTracking() {
         if (!('geolocation' in navigator)) { infoTextEl.textContent = "Trình duyệt không hỗ trợ GPS"; return; }
         liveDashboard.classList.remove('hidden');
         gpxInfoEl.classList.add('hidden');
+        controls.classList.remove('hidden');
         isTracking = true;
         resetStats();
         infoTextEl.textContent = 'Đang tìm tín hiệu GPS...';
@@ -115,6 +144,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             currentTailIndex = (currentTailIndex + 1) % TAIL_LENGTH;
         } else { startTime = position.timestamp; }
+        
+        if (destinationLatLng) {
+            const distanceToDest = map.distance(currentCoords, destinationLatLng);
+            destinationDistValueEl.textContent = `${(distanceToDest / 1000).toFixed(2)} km`;
+        }
+
         trackedPoints.push({ lat: latitude, lon: longitude, ele: altitude || 0, time: new Date(position.timestamp).toISOString() });
         lastPosition = position;
         infoTextEl.textContent = `Độ chính xác: ${Math.round(accuracy)}m`;
@@ -169,12 +204,11 @@ document.addEventListener('DOMContentLoaded', function () {
         reader.readAsText(file);
     }
 
-    // --- GẮN SỰ KIỆN VÀ KHỞI TẠO ---
+    // --- GẮN SỰ KIỆN ---
     startBtn.addEventListener('click', startTracking);
     stopBtn.addEventListener('click', stopTracking);
     saveBtn.addEventListener('click', saveTrackAsGPX);
     gpxFileInput.addEventListener('change', handleGPXUpload);
-
     toggleMapBtn.addEventListener('click', function(event) {
         event.stopPropagation();
         mapContainer.classList.toggle('collapsed');
@@ -185,7 +219,11 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(function() { map.invalidateSize(); }, 500); 
         }
     });
+    map.on('click', function(e) {
+        setDestination(e.latlng);
+    });
 
+    // --- KHỞI TẠO BAN ĐẦU ---
     tailColors = generateGradientColors('#00aaff', '#1a2332', TAIL_LENGTH);
     updateSpeedGauge(0);
 });
