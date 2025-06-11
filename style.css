@@ -1,25 +1,25 @@
-/* style.css - GIAO DIỆN "HẦM HỐ" */
+/* style.css - GIAO DIỆN "HẦM HỐ" - BẢN SỬA LỖI ĐẦY ĐỦ */
 
 /* --- BIẾN MÀU (CSS VARIABLES) ĐỂ DỄ TÙY CHỈNH --- */
 :root {
-    --bg-color: #121212; /* Nền đen tuyền */
-    --surface-color: rgba(30, 30, 30, 0.6); /* Nền cho các ô thông số (trong suốt) */
-    --primary-text-color: #e0e0e0; /* Màu chữ chính */
-    --secondary-text-color: #9e9e9e; /* Màu chữ phụ */
-    --accent-color: #00aaff; /* Màu nhấn Xanh Neon */
-    --glow-color: rgba(0, 170, 255, 0.7); /* Màu của hiệu ứng phát sáng */
-    --border-color: rgba(0, 170, 255, 0.25); /* Màu viền */
-    --stop-color: #ff4d4d; /* Màu đỏ cho nút Stop */
+    --bg-color: #121212;
+    --surface-color: rgba(30, 30, 30, 0.6);
+    --primary-text-color: #e0e0e0;
+    --secondary-text-color: #9e9e9e;
+    --accent-color: #00aaff;
+    --glow-color: rgba(0, 170, 255, 0.7);
+    --border-color: rgba(0, 170, 255, 0.25);
+    --stop-color: #ff4d4d;
 }
 
 /* --- NỀN VÀ FONT CHỮ CÔNG NGHỆ --- */
 body {
-    font-family: 'Exo 2', sans-serif; /* Font chữ mới */
+    font-family: 'Exo 2', sans-serif;
     margin: 0;
     padding: 15px;
     background: #1a1a1a;
-    background-image: 
-        radial-gradient(circle at 50% 100%, rgba(0, 170, 255, 0.15), transparent 50%); /* Vầng sáng xanh mờ ảo ở dưới */
+    background-image:
+        radial-gradient(circle at 50% 100%, rgba(0, 170, 255, 0.15), transparent 50%);
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -31,9 +31,9 @@ body {
 .container {
     width: 100%;
     max-width: 800px;
-    background: transparent; /* Bỏ nền trắng */
+    background: transparent;
     padding: 0;
-    box-shadow: none; /* Bỏ đổ bóng */
+    box-shadow: none;
     text-align: center;
 }
 
@@ -41,11 +41,11 @@ h1 {
     font-size: 2rem;
     font-weight: 700;
     color: #ffffff;
-    text-transform: uppercase; /* VIẾT HOA */
-    letter-spacing: 2px; /* Giãn cách ký tự */
+    text-transform: uppercase;
+    letter-spacing: 2px;
     margin-top: 0;
     margin-bottom: 25px;
-    text-shadow: 0 0 10px var(--glow-color); /* Hiệu ứng chữ phát sáng */
+    text-shadow: 0 0 10px var(--glow-color);
 }
 
 /* --- BẢN ĐỒ --- */
@@ -57,20 +57,17 @@ h1 {
     border: 1px solid var(--border-color);
     background-color: #1a1a1a;
 }
-/* Tùy chỉnh màu của popup trên bản đồ tối */
 .leaflet-popup-content-wrapper, .leaflet-popup-tip {
     background: #2c2c2c;
     color: var(--primary-text-color);
     box-shadow: 0 3px 14px rgba(0,0,0,0.4);
 }
 
-
-/* --- DASHBOARD & GAUGE VỚI HIỆU ỨNG NEON GLOW --- */
-#dashboard {
+/* --- BẢNG ĐIỀU KHIỂN THỜI GIAN THỰC (ĐIỆN THOẠI) --- */
+#live-dashboard {
     margin-bottom: 25px;
 }
 
-/* Đồng hồ tốc độ */
 #gauge-container {
     width: 200px;
     height: 200px;
@@ -85,7 +82,7 @@ h1 {
 
 .gauge-base {
     fill: none;
-    stroke: rgba(255, 255, 255, 0.1); /* Nền vòng tròn mờ */
+    stroke: rgba(255, 255, 255, 0.1);
     stroke-width: 12;
 }
 
@@ -95,18 +92,16 @@ h1 {
     stroke-width: 12;
     stroke-linecap: round;
     transition: stroke-dashoffset 0.35s ease-out;
-    /* Hiệu ứng neon glow cho thanh tốc độ */
     filter: drop-shadow(0 0 4px var(--accent-color)) drop-shadow(0 0 8px var(--accent-color));
 }
 
-/* Văn bản bên trong đồng hồ */
 .gauge-value {
     font-size: 3.5rem;
     font-weight: 700;
     fill: #ffffff;
-    text-anchor: middle; /* Căn giữa text theo chiều ngang */
-    dominant-baseline: middle; /* Căn giữa text theo chiều dọc */
-    transform: rotate(90deg) translate(0px, -120px); /* Xoay text lại cho đúng */
+    text-anchor: middle;
+    dominant-baseline: middle;
+    transform: rotate(90deg) translate(0px, -120px);
 }
 
 .gauge-unit {
@@ -114,10 +109,9 @@ h1 {
     font-weight: 400;
     fill: var(--secondary-text-color);
     text-anchor: middle;
-    transform: rotate(90deg) translate(0px, -120px) translateY(30px); /* Dịch chuyển xuống dưới số chính */
+    transform: rotate(90deg) translate(0px, -120px) translateY(30px);
 }
 
-/* --- HIỆU ỨNG GLASSMORPHISM CHO CÁC Ô THÔNG SỐ --- */
 #stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -125,8 +119,8 @@ h1 {
 }
 
 .stat-item {
-    background: var(--surface-color); /* Nền kính mờ */
-    backdrop-filter: blur(10px); /* Hiệu ứng mờ */
+    background: var(--surface-color);
+    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 20px;
     border-radius: 8px;
@@ -153,7 +147,7 @@ h1 {
     font-weight: 600;
     color: var(--primary-text-color);
 }
-/* Tô màu cho tốc độ tối đa */
+
 #max-speed-value {
     color: var(--stop-color);
     text-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
@@ -168,7 +162,37 @@ h1 {
     font-size: 0.95rem;
 }
 
-/* --- NÚT ĐIỀU KHIỂN "HẦM HỐ" --- */
+/* --- BẢNG THÔNG TIN GPX (PC) --- */
+#gpx-info {
+    background: var(--surface-color);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 25px;
+    text-align: left;
+}
+#gpx-info h2 {
+    margin-top: 0;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+#gpx-info p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+    color: var(--primary-text-color);
+}
+#gpx-info span {
+    font-weight: 700;
+    color: #fff;
+    word-break: break-all;
+}
+
+/* --- NÚT ĐIỀU KHIỂN --- */
 #controls {
     display: flex;
     justify-content: center;
@@ -229,7 +253,50 @@ h1 {
     border: none;
 }
 
-/* --- CÁC THIẾT LẬP CŨ --- */
+/* --- KHU VỰC TẢI FILE GPX (PC) --- */
+.gpx-uploader {
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px solid var(--border-color);
+}
+.gpx-uploader label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: var(--secondary-text-color);
+    letter-spacing: 1px;
+}
+.gpx-uploader input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.2);
+    border: 1px dashed var(--border-color);
+    border-radius: 5px;
+    color: var(--primary-text-color);
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.gpx-uploader input[type="file"]:hover {
+    background-color: rgba(0, 170, 255, 0.1);
+    border-color: var(--accent-color);
+}
+
+
+/* --- CLASS TIỆN ÍCH --- */
 .hidden {
-    display: none !important; /* Dùng !important để đảm bảo nó luôn được ẩn */
+    display: none !important;
+}
+
+
+/* --- RESPONSIVE CHO DI ĐỘNG --- */
+@media (max-width: 768px) {
+    /* Ẩn khu vực tải file GPX trên màn hình nhỏ (điện thoại) */
+    .gpx-uploader {
+        display: none;
+    }
+
+    /* Ẩn bảng thông tin GPX trên điện thoại */
+    #gpx-info {
+        display: none;
+    }
 }
