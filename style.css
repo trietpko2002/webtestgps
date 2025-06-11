@@ -1,6 +1,5 @@
-/* style.css - GIAO DIỆN "HẦM HỐ" - BẢN SỬA LỖI ĐẦY ĐỦ */
+/* style.css - GIAO DIỆN "HẦM HỐ" - PHIÊN BẢN HOÀN CHỈNH */
 
-/* --- BIẾN MÀU (CSS VARIABLES) ĐỂ DỄ TÙY CHỈNH --- */
 :root {
     --bg-color: #121212;
     --surface-color: rgba(30, 30, 30, 0.6);
@@ -12,291 +11,70 @@
     --stop-color: #ff4d4d;
 }
 
-/* --- NỀN VÀ FONT CHỮ CÔNG NGHỆ --- */
 body {
     font-family: 'Exo 2', sans-serif;
-    margin: 0;
-    padding: 15px;
-    background: #1a1a1a;
-    background-image:
-        radial-gradient(circle at 50% 100%, rgba(0, 170, 255, 0.15), transparent 50%);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    color: var(--primary-text-color);
-    box-sizing: border-box;
+    margin: 0; padding: 15px; background: #1a1a1a;
+    background-image: radial-gradient(circle at 50% 100%, rgba(0, 170, 255, 0.15), transparent 50%);
+    display: flex; justify-content: center; align-items: flex-start;
+    min-height: 100vh; color: var(--primary-text-color); box-sizing: border-box;
 }
 
-.container {
-    width: 100%;
-    max-width: 800px;
-    background: transparent;
-    padding: 0;
-    box-shadow: none;
-    text-align: center;
-}
+.container { width: 100%; max-width: 800px; background: transparent; padding: 0; box-shadow: none; text-align: center; }
 
-h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-top: 0;
-    margin-bottom: 25px;
-    text-shadow: 0 0 10px var(--glow-color);
-}
+h1 { font-size: 2rem; font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 2px;
+    margin-top: 0; margin-bottom: 25px; text-shadow: 0 0 10px var(--glow-color); }
 
-/* --- BẢN ĐỒ --- */
-#map {
-    height: 45vh;
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    border: 1px solid var(--border-color);
-    background-color: #1a1a1a;
-}
-.leaflet-popup-content-wrapper, .leaflet-popup-tip {
-    background: #2c2c2c;
-    color: var(--primary-text-color);
-    box-shadow: 0 3px 14px rgba(0,0,0,0.4);
-}
+#map { height: 45vh; width: 100%; border-radius: 8px; margin-bottom: 25px;
+    border: 1px solid var(--border-color); background-color: #1a1a1a; }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #2c2c2c; color: var(--primary-text-color); box-shadow: 0 3px 14px rgba(0,0,0,0.4); }
 
-/* --- BẢNG ĐIỀU KHIỂN THỜI GIAN THỰC (ĐIỆN THOẠI) --- */
-#live-dashboard {
-    margin-bottom: 25px;
-}
+#live-dashboard { margin-bottom: 25px; }
+#gauge-container { width: 200px; height: 200px; margin: 0 auto 25px auto; }
+#speed-gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
+.gauge-base { fill: none; stroke: rgba(255, 255, 255, 0.1); stroke-width: 12; }
+.gauge-progress { fill: none; stroke: var(--accent-color); stroke-width: 12; stroke-linecap: round;
+    transition: stroke-dashoffset 0.35s ease-out; filter: drop-shadow(0 0 4px var(--accent-color)) drop-shadow(0 0 8px var(--accent-color)); }
+.gauge-value { font-size: 3.5rem; font-weight: 700; fill: #ffffff; text-anchor: middle;
+    dominant-baseline: middle; transform: rotate(90deg) translate(0px, -120px); }
+.gauge-unit { font-size: 1.1rem; font-weight: 400; fill: var(--secondary-text-color); text-anchor: middle;
+    transform: rotate(90deg) translate(0px, -120px) translateY(30px); }
 
-#gauge-container {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 25px auto;
-}
+#stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; }
+.stat-item { background: var(--surface-color); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 20px;
+    border-radius: 8px; text-align: center; border: 1px solid var(--border-color); transition: all 0.2s ease-in-out; }
+.stat-item:hover { border-color: var(--accent-color); transform: translateY(-3px); }
+.stat-label { display: block; font-size: 0.9rem; color: var(--secondary-text-color); margin-bottom: 8px; text-transform: uppercase; }
+.stat-value { display: block; font-size: 1.8rem; font-weight: 600; color: var(--primary-text-color); }
+#max-speed-value { color: var(--stop-color); text-shadow: 0 0 8px rgba(255, 77, 77, 0.7); }
+#info-text { grid-column: 1 / -1; color: var(--secondary-text-color); padding: 10px; background: none; border: none; font-size: 0.95rem; }
 
-#speed-gauge {
-    width: 100%;
-    height: 100%;
-    transform: rotate(-90deg);
-}
+#gpx-info { background: var(--surface-color); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 20px;
+    border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 25px; text-align: left; }
+#gpx-info h2 { margin-top: 0; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; text-align: center; }
+#gpx-info p { margin: 10px 0; font-size: 1.1rem; color: var(--primary-text-color); }
+#gpx-info span { font-weight: 700; color: #fff; word-break: break-all; }
 
-.gauge-base {
-    fill: none;
-    stroke: rgba(255, 255, 255, 0.1);
-    stroke-width: 12;
-}
+#controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
+#controls button { padding: 12px 25px; font-family: 'Exo 2', sans-serif; font-size: 1rem; font-weight: 700; border: 2px solid transparent;
+    border-radius: 5px; cursor: pointer; transition: all 0.2s ease-in-out; min-width: 120px; color: #ffffff; text-transform: uppercase; }
+#controls button:hover { transform: scale(1.05); }
+#btn-start { background-color: transparent; border-color: var(--accent-color); }
+#btn-start:hover { background-color: var(--accent-color); box-shadow: 0 0 15px var(--glow-color); }
+#btn-stop { background-color: transparent; border-color: var(--stop-color); }
+#btn-stop:hover { background-color: var(--stop-color); box-shadow: 0 0 15px rgba(255, 77, 77, 0.7); }
+#btn-save { background-color: var(--secondary-text-color); border: none; }
+#btn-save:hover { background-color: var(--primary-text-color); color: var(--bg-color); }
+#btn-save:disabled { background-color: #333; color: #666; cursor: not-allowed; transform: none; box-shadow: none; border: none; }
 
-.gauge-progress {
-    fill: none;
-    stroke: var(--accent-color);
-    stroke-width: 12;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.35s ease-out;
-    filter: drop-shadow(0 0 4px var(--accent-color)) drop-shadow(0 0 8px var(--accent-color));
-}
+.gpx-uploader { margin-top: 25px; padding-top: 25px; border-top: 1px solid var(--border-color); }
+.gpx-uploader label { display: block; margin-bottom: 15px; font-weight: 700; color: var(--secondary-text-color); letter-spacing: 1px; }
+.gpx-uploader input[type="file"] { width: 100%; padding: 10px; background-color: rgba(0,0,0,0.2); border: 1px dashed var(--border-color);
+    border-radius: 5px; color: var(--primary-text-color); cursor: pointer; transition: background-color 0.2s, border-color 0.2s; }
+.gpx-uploader input[type="file"]:hover { background-color: rgba(0, 170, 255, 0.1); border-color: var(--accent-color); }
 
-.gauge-value {
-    font-size: 3.5rem;
-    font-weight: 700;
-    fill: #ffffff;
-    text-anchor: middle;
-    dominant-baseline: middle;
-    transform: rotate(90deg) translate(0px, -120px);
-}
+.hidden { display: none !important; }
 
-.gauge-unit {
-    font-size: 1.1rem;
-    font-weight: 400;
-    fill: var(--secondary-text-color);
-    text-anchor: middle;
-    transform: rotate(90deg) translate(0px, -120px) translateY(30px);
-}
-
-#stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 15px;
-}
-
-.stat-item {
-    background: var(--surface-color);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease-in-out;
-}
-.stat-item:hover {
-    border-color: var(--accent-color);
-    transform: translateY(-3px);
-}
-
-.stat-label {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--secondary-text-color);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-}
-
-.stat-value {
-    display: block;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--primary-text-color);
-}
-
-#max-speed-value {
-    color: var(--stop-color);
-    text-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
-}
-
-#info-text {
-    grid-column: 1 / -1;
-    color: var(--secondary-text-color);
-    padding: 10px;
-    background: none;
-    border: none;
-    font-size: 0.95rem;
-}
-
-/* --- BẢNG THÔNG TIN GPX (PC) --- */
-#gpx-info {
-    background: var(--surface-color);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    margin-bottom: 25px;
-    text-align: left;
-}
-#gpx-info h2 {
-    margin-top: 0;
-    color: var(--accent-color);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 1.2rem;
-    text-align: center;
-}
-#gpx-info p {
-    margin: 10px 0;
-    font-size: 1.1rem;
-    color: var(--primary-text-color);
-}
-#gpx-info span {
-    font-weight: 700;
-    color: #fff;
-    word-break: break-all;
-}
-
-/* --- NÚT ĐIỀU KHIỂN --- */
-#controls {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-#controls button {
-    padding: 12px 25px;
-    font-family: 'Exo 2', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    min-width: 120px;
-    color: #ffffff;
-    text-transform: uppercase;
-}
-#controls button:hover {
-    transform: scale(1.05);
-}
-
-#btn-start {
-    background-color: transparent;
-    border-color: var(--accent-color);
-}
-#btn-start:hover {
-    background-color: var(--accent-color);
-    box-shadow: 0 0 15px var(--glow-color);
-}
-
-#btn-stop {
-    background-color: transparent;
-    border-color: var(--stop-color);
-}
-#btn-stop:hover {
-    background-color: var(--stop-color);
-    box-shadow: 0 0 15px rgba(255, 77, 77, 0.7);
-}
-
-#btn-save {
-    background-color: var(--secondary-text-color);
-    border: none;
-}
-#btn-save:hover {
-    background-color: var(--primary-text-color);
-    color: var(--bg-color);
-}
-
-#btn-save:disabled {
-    background-color: #333;
-    color: #666;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-    border: none;
-}
-
-/* --- KHU VỰC TẢI FILE GPX (PC) --- */
-.gpx-uploader {
-    margin-top: 25px;
-    padding-top: 25px;
-    border-top: 1px solid var(--border-color);
-}
-.gpx-uploader label {
-    display: block;
-    margin-bottom: 15px;
-    font-weight: 700;
-    color: var(--secondary-text-color);
-    letter-spacing: 1px;
-}
-.gpx-uploader input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    background-color: rgba(0,0,0,0.2);
-    border: 1px dashed var(--border-color);
-    border-radius: 5px;
-    color: var(--primary-text-color);
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
-}
-.gpx-uploader input[type="file"]:hover {
-    background-color: rgba(0, 170, 255, 0.1);
-    border-color: var(--accent-color);
-}
-
-
-/* --- CLASS TIỆN ÍCH --- */
-.hidden {
-    display: none !important;
-}
-
-
-/* --- RESPONSIVE CHO DI ĐỘNG --- */
 @media (max-width: 768px) {
-    /* Ẩn khu vực tải file GPX trên màn hình nhỏ (điện thoại) */
-    .gpx-uploader {
-        display: none;
-    }
-
-    /* Ẩn bảng thông tin GPX trên điện thoại */
-    #gpx-info {
-        display: none;
-    }
+    .gpx-uploader { display: none; }
+    #gpx-info { display: none; }
 }
