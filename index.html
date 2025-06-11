@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Speedometer | Dark Mode</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>GPS Speedometer</h1>
+        
+        <div id="map"></div>
+        
+        <div id="dashboard">
+            <div id="gauge-container">
+                <svg id="speed-gauge" viewBox="0 0 120 120">
+                    <circle class="gauge-base" cx="60" cy="60" r="54"></circle>
+                    <circle class="gauge-progress" cx="60" cy="60" r="54"></circle>
+                    <text class="gauge-value" x="60" y="65">0</text>
+                    <text class="gauge-unit" x="60" y="85">km/h</text>
+                </svg>
+            </div>
+            
+            <div id="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Quãng đường</span>
+                    <span class="stat-value" id="distance-value">0.00 km</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Tốc độ T.Bình</span>
+                    <span class="stat-value" id="avg-speed-value">0 km/h</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Tốc độ Tối đa</span>
+                    <span class="stat-value" id="max-speed-value">0 km/h</span>
+                </div>
+                <div class="stat-item">
+                    <span id="info-text">Nhấn "Start" để bắt đầu</span>
+                </div>
+            </div>
+        </div>
+        
+        <div id="controls">
+            <button id="btn-start">Start</button>
+            <button id="btn-stop" class="hidden">Stop</button>
+            <button id="btn-save" class="hidden" disabled>Lưu Lộ Trình (.gpx)</button>
+        </div>
+        
+        <div class="gpx-uploader hidden">
+            <label for="gpx-file">Hoặc tải lên file GPX để xem lại lộ trình:</label>
+            <input type="file" id="gpx-file" accept=".gpx">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

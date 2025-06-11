@@ -1,0 +1,235 @@
+/* style.css - GIAO DIỆN "HẦM HỐ" */
+
+/* --- BIẾN MÀU (CSS VARIABLES) ĐỂ DỄ TÙY CHỈNH --- */
+:root {
+    --bg-color: #121212; /* Nền đen tuyền */
+    --surface-color: rgba(30, 30, 30, 0.6); /* Nền cho các ô thông số (trong suốt) */
+    --primary-text-color: #e0e0e0; /* Màu chữ chính */
+    --secondary-text-color: #9e9e9e; /* Màu chữ phụ */
+    --accent-color: #00aaff; /* Màu nhấn Xanh Neon */
+    --glow-color: rgba(0, 170, 255, 0.7); /* Màu của hiệu ứng phát sáng */
+    --border-color: rgba(0, 170, 255, 0.25); /* Màu viền */
+    --stop-color: #ff4d4d; /* Màu đỏ cho nút Stop */
+}
+
+/* --- NỀN VÀ FONT CHỮ CÔNG NGHỆ --- */
+body {
+    font-family: 'Exo 2', sans-serif; /* Font chữ mới */
+    margin: 0;
+    padding: 15px;
+    background: #1a1a1a;
+    background-image: 
+        radial-gradient(circle at 50% 100%, rgba(0, 170, 255, 0.15), transparent 50%); /* Vầng sáng xanh mờ ảo ở dưới */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    color: var(--primary-text-color);
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    background: transparent; /* Bỏ nền trắng */
+    padding: 0;
+    box-shadow: none; /* Bỏ đổ bóng */
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase; /* VIẾT HOA */
+    letter-spacing: 2px; /* Giãn cách ký tự */
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px var(--glow-color); /* Hiệu ứng chữ phát sáng */
+}
+
+/* --- BẢN ĐỒ --- */
+#map {
+    height: 45vh;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border: 1px solid var(--border-color);
+    background-color: #1a1a1a;
+}
+/* Tùy chỉnh màu của popup trên bản đồ tối */
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background: #2c2c2c;
+    color: var(--primary-text-color);
+    box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+}
+
+
+/* --- DASHBOARD & GAUGE VỚI HIỆU ỨNG NEON GLOW --- */
+#dashboard {
+    margin-bottom: 25px;
+}
+
+/* Đồng hồ tốc độ */
+#gauge-container {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 25px auto;
+}
+
+#speed-gauge {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.gauge-base {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1); /* Nền vòng tròn mờ */
+    stroke-width: 12;
+}
+
+.gauge-progress {
+    fill: none;
+    stroke: var(--accent-color);
+    stroke-width: 12;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.35s ease-out;
+    /* Hiệu ứng neon glow cho thanh tốc độ */
+    filter: drop-shadow(0 0 4px var(--accent-color)) drop-shadow(0 0 8px var(--accent-color));
+}
+
+/* Văn bản bên trong đồng hồ */
+.gauge-value {
+    font-size: 3.5rem;
+    font-weight: 700;
+    fill: #ffffff;
+    text-anchor: middle; /* Căn giữa text theo chiều ngang */
+    dominant-baseline: middle; /* Căn giữa text theo chiều dọc */
+    transform: rotate(90deg) translate(0px, -120px); /* Xoay text lại cho đúng */
+}
+
+.gauge-unit {
+    font-size: 1.1rem;
+    font-weight: 400;
+    fill: var(--secondary-text-color);
+    text-anchor: middle;
+    transform: rotate(90deg) translate(0px, -120px) translateY(30px); /* Dịch chuyển xuống dưới số chính */
+}
+
+/* --- HIỆU ỨNG GLASSMORPHISM CHO CÁC Ô THÔNG SỐ --- */
+#stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+}
+
+.stat-item {
+    background: var(--surface-color); /* Nền kính mờ */
+    backdrop-filter: blur(10px); /* Hiệu ứng mờ */
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease-in-out;
+}
+.stat-item:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary-text-color);
+}
+/* Tô màu cho tốc độ tối đa */
+#max-speed-value {
+    color: var(--stop-color);
+    text-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
+}
+
+#info-text {
+    grid-column: 1 / -1;
+    color: var(--secondary-text-color);
+    padding: 10px;
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+}
+
+/* --- NÚT ĐIỀU KHIỂN "HẦM HỐ" --- */
+#controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+#controls button {
+    padding: 12px 25px;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    min-width: 120px;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+#controls button:hover {
+    transform: scale(1.05);
+}
+
+#btn-start {
+    background-color: transparent;
+    border-color: var(--accent-color);
+}
+#btn-start:hover {
+    background-color: var(--accent-color);
+    box-shadow: 0 0 15px var(--glow-color);
+}
+
+#btn-stop {
+    background-color: transparent;
+    border-color: var(--stop-color);
+}
+#btn-stop:hover {
+    background-color: var(--stop-color);
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.7);
+}
+
+#btn-save {
+    background-color: var(--secondary-text-color);
+    border: none;
+}
+#btn-save:hover {
+    background-color: var(--primary-text-color);
+    color: var(--bg-color);
+}
+
+#btn-save:disabled {
+    background-color: #333;
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    border: none;
+}
+
+/* --- CÁC THIẾT LẬP CŨ --- */
+.hidden {
+    display: none !important; /* Dùng !important để đảm bảo nó luôn được ẩn */
+}
