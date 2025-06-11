@@ -24,8 +24,16 @@ body {
 h1 { font-size: 2rem; font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 2px;
     margin-top: 0; margin-bottom: 25px; text-shadow: 0 0 10px var(--glow-color); }
 
-#map { height: 45vh; width: 100%; border-radius: 8px; margin-bottom: 25px;
-    border: 1px solid var(--border-color); background-color: #1a1a1a; }
+#map {
+    position: relative; /* Cần có để định vị nút con bên trong */
+    height: 45vh;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border: 1px solid var(--border-color);
+    background-color: #1a1a1a;
+    transition: height 0.5s ease-in-out; /* Hiệu ứng co giãn mượt */
+}
 .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #2c2c2c; color: var(--primary-text-color); box-shadow: 0 3px 14px rgba(0,0,0,0.4); }
 
 #live-dashboard { margin-bottom: 25px; }
@@ -74,7 +82,22 @@ h1 { font-size: 2rem; font-weight: 700; color: #ffffff; text-transform: uppercas
 
 .hidden { display: none !important; }
 
+/* --- CSS CHO NÚT THU GỌN BẢN ĐỒ --- */
+#toggle-map-btn {
+    display: none; /* Mặc định ẩn trên màn hình lớn */
+    position: absolute; top: 10px; right: 10px; z-index: 1000;
+    background-color: rgba(30, 30, 30, 0.8);
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+    color: var(--primary-text-color); border: 1px solid var(--border-color); border-radius: 5px;
+    padding: 8px 12px; cursor: pointer; font-family: 'Exo 2', sans-serif;
+    font-size: 0.8rem; font-weight: 600;
+}
+#toggle-map-btn:hover { background-color: var(--accent-color); color: #fff; }
+
+#map.collapsed { height: 0; margin-bottom: 10px; overflow: hidden; border: none; }
+
+/* --- RESPONSIVE CHO DI ĐỘNG --- */
 @media (max-width: 768px) {
-    .gpx-uploader { display: none; }
-    #gpx-info { display: none; }
+    .gpx-uploader, #gpx-info { display: none; }
+    #toggle-map-btn { display: block; } /* Hiển thị nút thu gọn bản đồ trên màn hình nhỏ */
 }
