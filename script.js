@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // --- KHAI BÁO BIẾN DOM ---
     const liveDashboard = document.getElementById('live-dashboard');
     const gpxInfoEl = document.getElementById('gpx-info');
     const gpxFileInput = document.getElementById('gpx-file');
@@ -12,7 +13,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const maxSpeedValueEl = document.getElementById('max-speed-value');
     const gaugeProgressEl = document.querySelector('.gauge-progress');
     const gaugeValueEl = document.querySelector('.gauge-value');
+    const mapContainer = document.getElementById('map');
+    const toggleMapBtn = document.getElementById('toggle-map-btn');
 
+    // --- BIẾN TRẠNG THÁI VÀ CÀI ĐẶT ---
     const gaugeRadius = 54, gaugeCircumference = 2 * Math.PI * gaugeRadius, MAX_SPEED_ON_GAUGE = 150;
     gaugeProgressEl.style.strokeDasharray = gaugeCircumference;
     let isTracking = false, watchId = null, trackedPoints = [], userMarker;
@@ -20,12 +24,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const TAIL_LENGTH = 70;
     let tailSegments = [], tailColors = [], currentTailIndex = 0;
 
+    // --- KHỞI TẠO BẢN ĐỒ ---
     const map = L.map('map').setView([16.047079, 108.206230], 6);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd', maxZoom: 20
     }).addTo(map);
 
+    // --- CÁC HÀM XỬ LÝ ---
     function generateGradientColors(start, end, steps) {
         const sR = parseInt(start.slice(1,3),16), sG = parseInt(start.slice(3,5),16), sB = parseInt(start.slice(5,7),16);
         const eR = parseInt(end.slice(1,3),16), eG = parseInt(end.slice(3,5),16), eB = parseInt(end.slice(5,7),16);
@@ -46,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function resetStats() {
-        totalDistance = 0, maxSpeed = 0, startTime = null, lastPosition = null;
+        totalDistance = 0; maxSpeed = 0; startTime = null; lastPosition = null;
         trackedPoints = []; distanceValueEl.textContent = '0.00 km';
         avgSpeedValueEl.textContent = '0 km/h'; maxSpeedValueEl.textContent = '0 km/h';
         updateSpeedGauge(0);
@@ -163,10 +169,22 @@ document.addEventListener('DOMContentLoaded', function () {
         reader.readAsText(file);
     }
 
+    // --- GẮN SỰ KIỆN VÀ KHỞI TẠO ---
     startBtn.addEventListener('click', startTracking);
     stopBtn.addEventListener('click', stopTracking);
     saveBtn.addEventListener('click', saveTrackAsGPX);
     gpxFileInput.addEventListener('change', handleGPXUpload);
+
+    toggleMapBtn.addEventListener('click', function(event) {
+        event.stopPropagation();
+        mapContainer.classList.toggle('collapsed');
+        if (mapContainer.classList.contains('collapsed')) {
+            toggleMapBtn.textContent = 'Mở Bản Đồ';
+        } else {
+            toggleMapBtn.textContent = 'Ẩn Bản Đồ';
+            setTimeout(function() { map.invalidateSize(); }, 500); 
+        }
+    });
 
     tailColors = generateGradientColors('#00aaff', '#1a2332', TAIL_LENGTH);
     updateSpeedGauge(0);
