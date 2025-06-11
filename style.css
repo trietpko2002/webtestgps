@@ -25,14 +25,9 @@ h1 { font-size: 2rem; font-weight: 700; color: #ffffff; text-transform: uppercas
     margin-top: 0; margin-bottom: 25px; text-shadow: 0 0 10px var(--glow-color); }
 
 #map {
-    position: relative; /* Cần có để định vị nút con bên trong */
-    height: 45vh;
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    border: 1px solid var(--border-color);
-    background-color: #1a1a1a;
-    transition: height 0.5s ease-in-out; /* Hiệu ứng co giãn mượt */
+    position: relative; height: 45vh; width: 100%; border-radius: 8px; margin-bottom: 25px;
+    border: 1px solid var(--border-color); background-color: #1a1a1a;
+    transition: height 0.5s ease-in-out; 
 }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #2c2c2c; color: var(--primary-text-color); box-shadow: 0 3px 14px rgba(0,0,0,0.4); }
 
@@ -82,22 +77,27 @@ h1 { font-size: 2rem; font-weight: 700; color: #ffffff; text-transform: uppercas
 
 .hidden { display: none !important; }
 
-/* --- CSS CHO NÚT THU GỌN BẢN ĐỒ --- */
-#toggle-map-btn {
-    display: none; /* Mặc định ẩn trên màn hình lớn */
-    position: absolute; top: 10px; right: 10px; z-index: 1000;
-    background-color: rgba(30, 30, 30, 0.8);
-    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-    color: var(--primary-text-color); border: 1px solid var(--border-color); border-radius: 5px;
-    padding: 8px 12px; cursor: pointer; font-family: 'Exo 2', sans-serif;
-    font-size: 0.8rem; font-weight: 600;
-}
+#toggle-map-btn { display: none; position: absolute; top: 10px; right: 10px; z-index: 1000; background-color: rgba(30, 30, 30, 0.8);
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); color: var(--primary-text-color); border: 1px solid var(--border-color); border-radius: 5px;
+    padding: 8px 12px; cursor: pointer; font-family: 'Exo 2', sans-serif; font-size: 0.8rem; font-weight: 600; }
 #toggle-map-btn:hover { background-color: var(--accent-color); color: #fff; }
-
 #map.collapsed { height: 0; margin-bottom: 10px; overflow: hidden; border: none; }
 
-/* --- RESPONSIVE CHO DI ĐỘNG --- */
+.location-dot { position: relative; display: flex; justify-content: center; align-items: center; }
+.location-center { width: 14px; height: 14px; background-color: var(--accent-color); border-radius: 50%;
+    border: 2px solid #fff; box-shadow: 0 0 10px var(--glow-color); z-index: 2; }
+.location-ping { width: 24px; height: 24px; background-color: var(--glow-color); border-radius: 50%;
+    position: absolute; z-index: 1; animation: ping-animation 1.7s ease-out infinite; }
+@keyframes ping-animation { 0% { transform: scale(0.2); opacity: 1; } 80% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1.5); opacity: 0; } }
+
+.destination-marker { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff4d4d" width="36px" height="36px"><path d="M0 0h24v24H0z" fill="none"/><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6z"/></svg>');
+    background-size: contain; width: 36px; height: 36px; filter: drop-shadow(0 0 3px #000); }
+#clear-dest-btn { background-color: var(--stop-color); color: white; border: none; padding: 5px 10px;
+    border-radius: 3px; cursor: pointer; font-family: 'Exo 2', sans-serif; }
+.stat-destination .stat-label { color: var(--stop-color); }
+.stat-destination .stat-value { color: #fff; }
+
 @media (max-width: 768px) {
     .gpx-uploader, #gpx-info { display: none; }
-    #toggle-map-btn { display: block; } /* Hiển thị nút thu gọn bản đồ trên màn hình nhỏ */
+    #toggle-map-btn { display: block; }
 }
